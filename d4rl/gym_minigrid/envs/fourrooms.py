@@ -3,6 +3,8 @@
 
 from d4rl.gym_minigrid.minigrid import *
 from d4rl.gym_minigrid.register import register
+import numpy as np
+import random
 
 
 class FourRoomsEnv(MiniGridEnv):
@@ -74,8 +76,31 @@ class FourRoomsEnv(MiniGridEnv):
         self.mission = 'Reach the goal'
 
     def step(self, action):
+        # print("Action taken - ", action)
+        # if its size greater than 1, take argmax
+        if isinstance(action, (list, tuple, np.ndarray)):
+            action = np.argmax(action)
+
         obs, reward, done, info = MiniGridEnv.step(self, action)
+        if reward > 0:
+            reward = 1
+        else: 
+            reward = 0
+
+        if done:
+            self.soft_reset()
+            done = False
+
         return obs, reward, done, info
+
+    def soft_reset(self):
+        """
+        Generates a new goal but does NOT regenerate the map
+        """
+        self.step_count = 0
+        loc = [(1,1), (10, 1), (1, 10), (10, 10)]
+        self.place(agent(random.choice(loc), (7,7)))
+        self.place_obj(Goal())
 
 register(
     id='MiniGrid-FourRooms-v0',

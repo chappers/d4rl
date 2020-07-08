@@ -683,9 +683,9 @@ class MiniGridEnv(offline_env.OfflineEnv):
             shape=(self.agent_view_size, self.agent_view_size, 3),
             dtype='uint8'
         )
-        self.observation_space = spaces.Dict({
-            'image': self.observation_space
-        })
+        # self.observation_space = spaces.Dict({
+        #     'image': self.observation_space
+        # })
 
         # Range of possible rewards
         self.reward_range = (0, 1)
@@ -1240,8 +1240,8 @@ class MiniGridEnv(offline_env.OfflineEnv):
             return
 
         if mode == 'human' and not self.window:
-            import gym_minigrid.window
-            self.window = gym_minigrid.window.Window('gym_minigrid')
+            import d4rl.gym_minigrid.window
+            self.window = d4rl.gym_minigrid.window.Window('gym_minigrid')
             self.window.show(block=False)
 
         # Compute which cells are visible to the agent

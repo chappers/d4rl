@@ -683,9 +683,9 @@ class MiniGridEnv(offline_env.OfflineEnv):
             shape=(self.agent_view_size, self.agent_view_size, 3),
             dtype='uint8'
         )
-        # self.observation_space = spaces.Dict({
-        #     'image': self.observation_space
-        # })
+        self.observation_space = spaces.Dict({
+            'image': self.observation_space
+        })
 
         # Range of possible rewards
         self.reward_range = (0, 1)
